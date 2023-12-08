@@ -5,8 +5,8 @@ from flask import Flask, request, jsonify
 # CONSTANTS
 TOKEN = os.environ.get('DD_TOKEN')
 CHANNEL_ID = os.environ.get('DD_CHANNEL_ID')
+API_URL = f'https://discord.com/api/v10/channels/{CHANNEL_ID}/messages'
 
-send_message_url = f'https://discord.com/api/v10/channels/{CHANNEL_ID}/messages'
 headers={
             'Authorization': f'Bot {TOKEN}',
             'Content-Type': 'application/json',
@@ -67,9 +67,28 @@ def post_message_to_server(message):
             "content": message,
         }
 
-        response = requests.post(send_message_url, json=send_message_data, headers=headers)
+        response = requests.post(API_URL, json=send_message_data, headers=headers)
         if response.status_code != 200:
             print(f"Failed to send message. Status code: {response.status_code}, Response: {response.text}")
+    except Exception as e:
+        print("Error sending message:", str(e))
+
+@app.route("/all", methods=["GET"])
+def get_all_messages():
+    try:
+        params = {
+            'limit': 100
+        }
+
+        response = requests.get(API_URL, headers=headers, params=params)
+        data = response.json()
+
+        if response.status_code == 200:
+            messages = data
+        else:
+            messages = None
+        return jsonify({"messages": messages})
+
     except Exception as e:
         print("Error sending message:", str(e))
 
