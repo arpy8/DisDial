@@ -1,0 +1,9 @@
+/.venv
+disdial/__pycache__
+api/__pycache__
+/disdial
+
+pypi
+MANIFEST.in
+setup.py
+README.md
