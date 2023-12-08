@@ -1,0 +1,2 @@
+[console_scripts]
+disdial = disdial.main:main

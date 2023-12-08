@@ -1,0 +1,14 @@
+Metadata-Version: 2.1
+Name: disdial
+Version: 0.1.1
+Summary: This library is under developmental stage.
+Author: Arpit Sengar (arpy8)
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# disdial
+
+> **Disclaimer:** This library is under developmental stage
