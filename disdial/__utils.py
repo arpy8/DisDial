@@ -66,4 +66,4 @@ def stop_time_animation():
     trigger.set()
     animation_thread.join()
     
-start_time_animation()
+# start_time_animation()
