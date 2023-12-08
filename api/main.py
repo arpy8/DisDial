@@ -22,15 +22,18 @@ def index():
 def send_data():
     try:
         if request.method == "POST":
+            time = request.json.get("time")
             username = request.json.get("username")
             message = request.json.get("message")
-            data = f"{username}: {message}"
+            
+            data = f"[{time}] {username}: {message}"
 
             if not data:
                 return jsonify({"error": "Data not provided"}), 400
 
             post_message_to_server(data)
-            return jsonify({username: message})
+            
+            return jsonify({"status": "ok"})
 
         elif request.method == "GET":
             response = requests.get(f'https://discord.com/api/v10/channels/{CHANNEL_ID}/messages', headers=headers, params={'limit': 1})
@@ -44,8 +47,6 @@ def send_data():
 
             if not data:
                 return jsonify({"error": "Couldn't fetch data"}), 400
-
-            return jsonify({"success": True})
 
     except Exception as e:
         print(e)
@@ -64,4 +65,4 @@ def post_message_to_server(message):
         print("Error sending message:", str(e))
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
