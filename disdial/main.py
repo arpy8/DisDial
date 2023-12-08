@@ -2,6 +2,7 @@ from .__utils import *
 from .__chat import main as start_chat
 from .__chat import send_message_to_server
 from .__user_name import main as check_username
+from .__user_name import get_username
 
 def main():
     parser = argparse.ArgumentParser(description="This is a library designed to enable one to chat from the CLI.")
@@ -21,7 +22,9 @@ def main():
         else:
             print("No new messages.")
         
-        print(send_message_to_server(input("> ")))
+        message = input(f"[{get_username()}]: ")
+        
+        print(send_message_to_server(message))
         
     if args.docs:
         open_url("https://youtu.be/-p0a9BJTEvA")
