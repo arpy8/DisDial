@@ -3,3 +3,6 @@ disdial/__pycache__
 api/__pycache__
 
 /tests
+/build
+/dist
+/disdial.egg-info
