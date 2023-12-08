@@ -29,7 +29,7 @@ def send_data():
             username = request.json.get("username")
             message = request.json.get("message")
             
-            data = f"[{time}] {username}: {message}"
+            data = f"[{time}] {username}:\n{message}"
 
             if not data:
                 return jsonify({"error": "Data not provided"}), 400
