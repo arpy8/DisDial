@@ -1,6 +1,16 @@
+import os
 import requests
 from flask import Flask, request, jsonify
-from __constants import *
+
+# CONSTANTS
+TOKEN = os.environ.get('DD_TOKEN')
+CHANNEL_ID = os.environ.get('DD_CHANNEL_ID')
+
+send_message_url = f'https://discord.com/api/v10/channels/{CHANNEL_ID}/messages'
+headers={
+            'Authorization': f'Bot {TOKEN}',
+            'Content-Type': 'application/json',
+        }
 
 app = Flask(__name__)
 
