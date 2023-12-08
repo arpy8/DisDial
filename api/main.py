@@ -1,18 +1,26 @@
 import os
 import requests
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, abort
 
 # CONSTANTS
 TOKEN = os.environ.get('DD_TOKEN')
 CHANNEL_ID = os.environ.get('DD_CHANNEL_ID')
 API_URL = f'https://discord.com/api/v10/channels/{CHANNEL_ID}/messages'
+DD_TOKEN = os.environ.get('DD_AUTH_TOKEN')
 
 headers={
             'Authorization': f'Bot {TOKEN}',
             'Content-Type': 'application/json',
         }
 
+
 app = Flask(__name__)
+
+@app.before_request
+def check_auth():
+    token = request.headers.get('Authorization')
+    if token != DD_TOKEN:
+        abort(401, 'Unauthorized access >:(')
 
 @app.route("/")
 def index():
@@ -73,6 +81,7 @@ def post_message_to_server(message):
     except Exception as e:
         print("Error sending message:", str(e))
 
+
 @app.route("/all", methods=["GET"])
 def get_all_messages():
     try:
@@ -84,10 +93,11 @@ def get_all_messages():
         data = response.json()
 
         if response.status_code == 200:
-            messages = data
+            messages = [message['content'] for message in data]
         else:
-            messages = None
-        return jsonify({"messages": messages})
+            messages = []
+            
+        return messages
 
     except Exception as e:
         print("Error sending message:", str(e))
