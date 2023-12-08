@@ -42,28 +42,31 @@ def load_animation():
 
     os.system("cls")
         
-def load_time_animation(username, trigger):
-    count = 0
-    while not trigger.is_set():
-        current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        time.sleep(1)
+# def load_time_animation(username, trigger):
+#     count = 0
+#     while not trigger.is_set():
+#         current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+#         time.sleep(1)
 
-        sys.stdout.write("\r[{}] {}:".format(current_time, username))
-        sys.stdout.flush()
+#         print("\r[{}] {}:".format(current_time, username), end='', flush=True)
 
-        count += 1
+#         count += 1
 
-    sys.stdout.write("\r[{}]".format(current_time))
-    sys.stdout.flush()
+#     print("\r[{}]".format(current_time), end='', flush=True)
 
-trigger = threading.Event()
-animation_thread = threading.Thread(target=load_time_animation, args=("arpy8",trigger,))
+# def input_message():
+#     return input(">> ")
 
-def start_time_animation():
-    animation_thread.start()
+# trigger = threading.Event()
+# animation_thread = threading.Thread(target=load_time_animation, args=("arpy8", trigger,))
+# input_thread = threading.Thread(target=input_message, args=())
 
-def stop_time_animation():
-    trigger.set()
-    animation_thread.join()
-    
+# def start_time_animation():
+#     animation_thread.start()
+#     input_thread.start()
+
+# def stop_time_animation():
+#     trigger.set()
+#     animation_thread.join()
+
 # start_time_animation()
