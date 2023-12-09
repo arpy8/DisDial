@@ -14,7 +14,7 @@ def set_username(username):
         with open(JSON_FILE_PATH, 'r') as f:
             data = json.load(f)
             
-        data['name'] = username
+        data['name'] = username.strip()
         
         with open(JSON_FILE_PATH, 'w') as f:
             json.dump(data, f, indent=2)
