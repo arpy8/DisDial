@@ -1,30 +1,49 @@
 from .__utils import *
-from .__chat import main as start_chat
-from .__chat import send_message_to_server
+from .__chat import main as __chat_main
+from .__chat import update_screen, send_message_to_server, get_all_messages
 from .__user_name import main as check_username
 
-def main():
-    parser = argparse.ArgumentParser(description="This is a library designed to enable one to chat from the CLI.")
-    parser.add_argument("-d", "--docs", action="store_true", help="documentation about the library.")    
-    args = parser.parse_args()
-    
-    if not any(vars(args).values()):
-        check_username()
-        
-        load_animation()
-        welcome_message()
 
-        response = start_chat()
+def main():
+    try:
+        parser = argparse.ArgumentParser(description="This is a library designed to enable one to chat from the CLI.")
+        parser.add_argument("-d", "--docs", action="store_true", help="documentation about the library.")    
+        args = parser.parse_args()
         
-        if response[0]:
-            print(response[1])
-        else:
-            print("No new messages.")
+        if not any(vars(args).values()):
+            check_username()
+            
+            load_animation()
+            welcome_message()
+            response = __chat_main()
+            loading_animation2()
+
+            for message in get_all_messages():
+                print(message)
+
+            while True:
+                try:
+                    message = input(f"\n>> ")
+                    if message=="$r":
+                        update_screen()
+                        continue
+                    send_message_to_server(message)
+                    update_screen()
+                except EOFError:
+                    break
+
+        if args.docs:
+            open_url("https://youtu.be/-p0a9BJTEvA")
+            
+    except KeyboardInterrupt:
+        print("\n\nExiting...")
+        exit(0)
         
-        print(send_message_to_server(input("> ")))
-        
-    if args.docs:
-        open_url("https://youtu.be/-p0a9BJTEvA")
-    
+def auto_update_screen(delay=10):
+    time.sleep(delay)
+    update_screen()
+
 if __name__ == "__main__":
-    main()
+    auto_update_thread = threading.Thread(target=auto_update_screen)
+    auto_update_thread.start()
+    threading.Thread(target=main).start()

@@ -1,4 +1,10 @@
-from __dependencies import *
+from .__dependencies import *
+
+animations = [[".(^-^)'", "-(^-^)-", "'(^-^).", "-(^-^)-", ".(^-^)'", "-(^-^)-", "'(^-^).", "-(^-^)-"],
+              ["▯▯▯▯ 25%", "▯▯▯▯▯▯▯▯ 50%", "▯▯▯▯▯▯▯▯ 70%", "\\"],
+              ["", "", "", "", ""]
+            ]
+
 
 def open_url(url):
     webbrowser.open(url)
@@ -7,20 +13,20 @@ def path_converter(file_name):
     return pkg_resources.resource_filename('disdial', file_name)
 
 def welcome_message():
-    print(colored("Welcome to Disdial!", "green"))
+    print(colored("Welcome to DisDial!\n", "green"))
 
-def load_animation():
-
-    load_str = f"Loading... "
+def load_animation(pref="Loading... ", i=0):
+    load_str = pref
     ls_len = len(load_str)
 
-    animation = [".(^-^)'", "-(^-^)-", "'(^-^).", "-(^-^)-", ".(^-^)'", "-(^-^)-", "'(^-^).", "-(^-^)-"]
+    animation = animations[i]
     anicount = 0
 
     counttime = 0
     i = 0
     count = 0
-    while count<10:
+
+    while count < 10:
         time.sleep(0.1)
 
         load_str_list = list(load_str)
@@ -29,8 +35,7 @@ def load_animation():
         for j in range(ls_len):
             res = res + load_str_list[j]
 
-        sys.stdout.write("\r" + res + animation[anicount])
-        sys.stdout.flush()
+        print("\r" + res + animation[anicount], end='', flush=True)
 
         load_str = res
 
@@ -38,35 +43,21 @@ def load_animation():
         i = (i + 1) % ls_len
         counttime = counttime + 1
 
-        count+=1
+        count += 1
 
-    os.system("cls")
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+def loading_animation2():
+    animations = [
+                "24.3%  ▯▯▯▯▯▯", 
+                "58.7% ▯▯▯▯▯▯▯▯▯▯▯▯", 
+                "75.1% ▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯", 
+                "99.9% ▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯"
+                ]
+
+    for animation in animations:
+        print(animation, end='', flush=True)
+        time.sleep(random.uniform(0.12, 0.25))
+        print("\r", end='', flush=True)
         
-# def load_time_animation(username, trigger):
-#     count = 0
-#     while not trigger.is_set():
-#         current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-#         time.sleep(1)
-
-#         print("\r[{}] {}:".format(current_time, username), end='', flush=True)
-
-#         count += 1
-
-#     print("\r[{}]".format(current_time), end='', flush=True)
-
-# def input_message():
-#     return input(">> ")
-
-# trigger = threading.Event()
-# animation_thread = threading.Thread(target=load_time_animation, args=("arpy8", trigger,))
-# input_thread = threading.Thread(target=input_message, args=())
-
-# def start_time_animation():
-#     animation_thread.start()
-#     input_thread.start()
-
-# def stop_time_animation():
-#     trigger.set()
-#     animation_thread.join()
-
-# start_time_animation()
+    os.system('cls' if os.name == 'nt' else 'clear')
