@@ -1,8 +1,12 @@
 from .__utils import *
 from .__chat import main as __chat_main
-from .__chat import update_screen, send_message_to_server, get_all_messages
+from .__chat import check_new_message, update_screen, send_message_to_server, get_all_messages, auto_update_screen
 from .__user_name import main as check_username
 
+# def detect_change():
+#     while 1:
+#         update_screen()
+#         time.sleep(2)
 
 def main():
     try:
@@ -23,8 +27,9 @@ def main():
 
             while True:
                 try:
+                    update_screen() if check_new_message() else None
                     message = input(f"\n>> ")
-                    if message=="$r":
+                    if message == "$r":
                         update_screen()
                         continue
                     send_message_to_server(message)
@@ -38,12 +43,6 @@ def main():
     except KeyboardInterrupt:
         print("\n\nExiting...")
         exit(0)
-        
-def auto_update_screen(delay=10):
-    time.sleep(delay)
-    update_screen()
 
 if __name__ == "__main__":
-    auto_update_thread = threading.Thread(target=auto_update_screen)
-    auto_update_thread.start()
-    threading.Thread(target=main).start()
+    main()
