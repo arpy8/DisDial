@@ -6,3 +6,4 @@ requests
 pytz
 argparse
 datetime
+keyboard

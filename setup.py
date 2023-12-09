@@ -5,12 +5,12 @@ with open("README.md", "r") as f:
 
 setup(
     name="disdial",
-    version="0.1.1",
+    version="1.1.3",
     author="Arpit Sengar (arpy8)",
     description="This library is under developmental stage.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    install_requires=["wheel", "termcolor", "setuptools", "argparse", "requests", "pytz", "argparse", "datetime"],
+    install_requires=["wheel", "termcolor", "setuptools", "argparse", "requests", "pytz", "argparse", "datetime", "keyboard"],
     entry_points={
         "console_scripts": [
             "disdial=disdial.main:main",
@@ -23,5 +23,5 @@ setup(
     ],
     include_package_data=True,
     packages=find_packages(),
-    package_data={'my_package': ['data/*.txt', 'data/*.json']},
+    package_data={'disdial': ['data/*.txt', 'data/*.json']},
 )

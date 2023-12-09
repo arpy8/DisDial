@@ -1,31 +1,28 @@
 from .__utils import *
 from .__constants import *
 
-#         try:
-#             startupinfo = subprocess.STARTUPINFO()
-#             startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-#             process = subprocess.Popen(command, startupinfo=startupinfo, stdout=subprocess.PIPE, 
-#                                        stderr=subprocess.PIPE, stdin=subprocess.PIPE, shell=power_shell, text=True).stdout.read()
-#             return str(process)+"\n"
-        
-#         except subprocess.CalledProcessError as e:
-#                 return f"Error: {e}"
-
-# def extract_name_from_cli():
-#     command = ["systeminfo"]
-#     sys_info = _run_command(command)
-#     username = sys_info.split("\n")[4].split(":")[1].strip()
-
-#     return username
-
 def get_username():
-    with open(JSON_FILE_PATH, "r") as f:
-        return json.load(f)["name"]
+    try:
+        with open(JSON_FILE_PATH, "r") as f:
+            return json.load(f)["name"]
+        
+    except Exception as e:
+        print(colored(f"Error setting username: {e}", "red"))
 
 def set_username(username):
-    with open(JSON_FILE_PATH, "w") as f:
-        json.dump({"name": username}, f)
-        return "-> username set to {username}"
+    try:
+        with open(JSON_FILE_PATH, 'r') as f:
+            data = json.load(f)
+            
+        data['name'] = username
+        
+        with open(JSON_FILE_PATH, 'w') as f:
+            json.dump(data, f, indent=2)
+            
+        print(colored(f"username set to {username}", "green"))
+
+    except Exception as e:
+        print(colored(f"error setting username: {e}", "red"))
 
 def main():
     name = get_username()
