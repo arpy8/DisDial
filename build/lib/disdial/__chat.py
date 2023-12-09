@@ -1,6 +1,6 @@
 from .__constants import *
 from .__user_name import main as __username_main
-from .__dependencies import requests, datetime, pytz, json, os
+from .__dependencies import requests, datetime, pytz, json, os, time
 
 token = json.load(open(JSON_FILE_PATH))['token']
 headers = {
@@ -57,7 +57,18 @@ def update_screen():
     for msg in get_all_messages():
         print(msg)
 
+def auto_update_screen(stop_event, interval_seconds=5):
+    while not stop_event.is_set():
+        new_message, last_message = check_new_message()
 
+        if new_message:
+            print("New message detected. Updating screen...")
+            update_screen()
+
+        time.sleep(interval_seconds)
+
+    print("Auto-update thread is exiting.")
+    
 def main():
     if check_new_message()[0]:
         update_logs(get_all_messages()[-1])
