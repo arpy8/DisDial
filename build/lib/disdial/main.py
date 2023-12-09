@@ -1,7 +1,7 @@
 from .__utils import *
 from .__chat import main as __chat_main
 from .__chat import check_new_message, update_screen, send_message_to_server, get_all_messages, auto_update_screen
-from .__user_name import main as check_username
+from .__user_name import main as check_username, set_username
 
 # def detect_change():
 #     while 1:
@@ -25,16 +25,20 @@ def main():
             for message in get_all_messages():
                 print(message)
 
+            update_screen() 
             while True:
                 try:
-                    if check_new_message():
-                        update_screen()
                     message = input(f"\n>> ")
-                    if message == "$r":
+                    if message[:2] == "-c":
+                        set_username(message[2:])
+                        continue
+                    if message in ["rr", "rf", "-r", "rl", "clea", ""]:
                         update_screen()
                         continue
+                    if message == "exit":
+                        exit(0)
                     send_message_to_server(message)
-                    update_screen()
+                    update_screen() 
                 except EOFError:
                     break
 
