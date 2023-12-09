@@ -5,7 +5,7 @@ with open("README.md", "r") as f:
 
 setup(
     name="disdial",
-    version="1.1.3",
+    version="1.2.1",
     author="Arpit Sengar (arpy8)",
     description="This library is under developmental stage.",
     long_description=long_description,
