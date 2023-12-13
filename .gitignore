@@ -1,9 +1,10 @@
 /.venv
 disdial/__pycache__
 api/__pycache__
-/disdial
+
+/tests
+/build
+/dist
+/disdial.egg-info
 
 pypi
-MANIFEST.in
-setup.py
-README.md

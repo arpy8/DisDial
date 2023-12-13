@@ -1,0 +1,3 @@
+python setup.py sdist bdist_wheel ; pip install . ;
+
+twine upload -u __token__ -p pypi-AgEIcHlwaS5vcmcCJGM3Yzg4ZWQ1LWYxNGUtNDAyNi05ZTk2LTU1NTFiYzcxMGVjMAACKlszLCI1MmUyNTI4Mi0xMmQ0LTQwNDctYWJhNi00YTgzYTNmOTI5YzMiXQAABiAjqwfe_-yjau60IZIJDGF2OHQSzAlavSJ41uSV2_NT_A --skip-existing dist/*
