@@ -16,16 +16,18 @@ def main():
         
         if not any(vars(args).values()):
             check_username()
-            
             load_animation()
             welcome_message()
+
             response = __chat_main()
+            
             loading_animation2()
 
             for message in get_all_messages():
                 print(message)
 
             update_screen() 
+            
             while True:
                 try:
                     message = input(f"\n>> ")
