@@ -1,4 +1,10 @@
-from .__dependencies import *
+import os
+import time
+import random
+import webbrowser
+import pkg_resources
+from termcolor import colored
+
 
 animations = [[".(^-^)'", "-(^-^)-", "'(^-^).", "-(^-^)-", ".(^-^)'", "-(^-^)-", "'(^-^).", "-(^-^)-"],
               ["▯▯▯▯ 25%", "▯▯▯▯▯▯▯▯ 50%", "▯▯▯▯▯▯▯▯ 70%", "\\"],

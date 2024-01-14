@@ -2,11 +2,10 @@ LICENSE
 README.md
 setup.py
 disdial/__chat.py
-disdial/__constants.py
-disdial/__dependencies.py
 disdial/__init__.py
 disdial/__user_name.py
 disdial/__utils.py
+disdial/_constants.py
 disdial/main.py
 disdial.egg-info/PKG-INFO
 disdial.egg-info/SOURCES.txt
@@ -16,3 +15,4 @@ disdial.egg-info/requires.txt
 disdial.egg-info/top_level.txt
 disdial/data/config.json
 disdial/data/logs.txt
+tests/test.py
