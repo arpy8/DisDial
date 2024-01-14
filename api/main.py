@@ -26,9 +26,6 @@ def check_auth():
 def index():
     return jsonify({"NOTE": "Hi."})
 
-from flask import request, jsonify
-import requests
-
 @app.route("/data", methods=["POST", "GET"])
 def send_data():
     try:
