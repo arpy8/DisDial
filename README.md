@@ -30,7 +30,7 @@ If you wish to know more about the packge description, run:<br>
 ### Commands
 
 - `-c`: Change username.
-- `rr`, `rf`, `-r`, `rl`, `clea`, or just press enter: Refresh the screen.
+- `rr`, `rf`, `-r`, `rl`, `clea`, or just press enter: Refresh the screen to check for latest message.
 - `exit` or `ctrl+c`: Exit DisDial.
 
 ## Documentation
