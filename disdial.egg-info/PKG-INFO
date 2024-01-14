@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: disdial
-Version: 1.2.1
+Version: 1.2.2
 Summary: This library is under developmental stage.
 Author: Arpit Sengar (arpy8)
 Classifier: Programming Language :: Python :: 3
@@ -8,6 +8,15 @@ Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
 Description-Content-Type: text/markdown
 License-File: LICENSE
+Requires-Dist: wheel
+Requires-Dist: termcolor
+Requires-Dist: setuptools
+Requires-Dist: argparse
+Requires-Dist: requests
+Requires-Dist: pytz
+Requires-Dist: argparse
+Requires-Dist: datetime
+Requires-Dist: keyboard
 
 # disdial
 

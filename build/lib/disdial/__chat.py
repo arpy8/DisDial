@@ -1,12 +1,20 @@
-from .__constants import *
-from .__user_name import main as __username_main
-from .__dependencies import requests, datetime, pytz, json, os, time
+import pytz
+import json
+import time
+import requests
+import datetime
+import logging
 
-token = json.load(open(JSON_FILE_PATH))['token']
-headers = {
-    'Authorization': token,
+from disdial.__user_name import main as __username_main
+from disdial.__constants import API_URL, API_URL2, LOGS_FILE_PATH, JSON_FILE_PATH
+
+_chat_token = json.load(open(JSON_FILE_PATH))['token']
+_chat_headers = {
+    'Authorization': _chat_token,
     'Content-Type': 'application/json',
 }
+
+logging.basicConfig(filename=LOGS_FILE_PATH, level=logging.INFO)
 
 def get_time():
     current_time = datetime.datetime.now(pytz.timezone('Asia/Kolkata'))
@@ -24,42 +32,48 @@ def get_last_message():
     return get_all_messages()[-1]
 
 def get_all_messages():
-    response = requests.get(API_URL2, headers=headers)
-    data = response.json()[::-1]
-    data = [x for x in data if data != ""]
-    return data
+    try:
+        response = requests.get(API_URL2, headers=_chat_headers)
+        response.raise_for_status()
+        data = response.json()[::-1]
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching messages: {e}")
+        data = []
+    return [x for x in data if x != ""]
 
 def check_new_message():
-    last_message = get_last_message()
+    try:
+        last_message = get_last_message()
+    except IndexError:
+        last_message = ""
     return (True, last_message) if last_message != read_logs() else (False, last_message)
 
 def send_message_to_server(message):
     current_time = get_time()
     username = __username_main()
-    
+
     data = {
-            'time': current_time,
-            'username': username,
-            'message': message, 
-            }
-    
-    response = requests.post(API_URL, json=data, headers=headers)
-        
-    if response.status_code == 200:
+        'time': current_time,
+        'username': username,
+        'message': message,
+    }
+
+    try:
+        response = requests.post(API_URL, json=data, headers=_chat_headers)
+        response.raise_for_status()
         update_logs(f"[{current_time}] {username}: {data['message']}")
         return f"[{current_time}] {username}: {data['message']}"
-    else:
-        return f"request failed : {response.status_code}"
-        
+    except requests.exceptions.RequestException as e:
+        return f"Request failed: {e}"
+
 def update_screen():
-    os.system('cls' if os.name == 'nt' else 'clear')
-    
+    print('\033c', end='')
     for msg in get_all_messages():
         print(msg)
 
 def auto_update_screen(stop_event, interval_seconds=5):
     while not stop_event.is_set():
-        new_message, last_message = check_new_message()
+        new_message, _ = check_new_message()
 
         if new_message:
             print("New message detected. Updating screen...")
@@ -68,10 +82,16 @@ def auto_update_screen(stop_event, interval_seconds=5):
         time.sleep(interval_seconds)
 
     print("Auto-update thread is exiting.")
-    
+
 def main():
     if check_new_message()[0]:
-        update_logs(get_all_messages()[-1])
+        try:
+            update_logs(get_all_messages()[-1])
+        except IndexError:
+            pass
         return get_all_messages()
-    else: 
+    else:
         return False
+
+if __name__ == "__main__":
+    main()
