@@ -25,7 +25,7 @@ def input_loop():
 
 def main():
     try:
-        parser = argparse.ArgumentParser(description="This is a library designed to enable one to chat from the CLI.")
+        parser = argparse.ArgumentParser(description="A terminal-based IRC-inspired package that enables users to chat on a single server with everyone.")
         parser.add_argument("-d", "--docs", action="store_true", help="documentation about the library.")
         args = parser.parse_args()
 
