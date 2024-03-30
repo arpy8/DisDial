@@ -48,7 +48,7 @@ def check_and_update_new_message():
     if last_message != local_message:
         update_logs(last_message)
     
-    return last_message != local_message, local_message
+    return last_message != local_message, last_message
     
 def send_message_to_server(message):
     current_time = get_time()

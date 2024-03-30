@@ -5,7 +5,7 @@ with open("README.md", "r") as f:
 
 setup(
     name="disdial",
-    version="1.3.1",
+    version="1.3.2",
     author="Arpit Sengar (arpy8)",
     description="A terminal-based IRC-inspired package that enables users to chat on a single server with everyone..",
     long_description=long_description,
