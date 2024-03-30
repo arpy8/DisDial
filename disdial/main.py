@@ -1,8 +1,12 @@
 import argparse
+import keyboard
+import threading
 from disdial.__utils import *
 from disdial.__chat import main as __chat_main
 from disdial.__user_name import main as check_username, set_username
-from disdial.__chat import update_screen, send_message_to_server, get_all_messages
+from disdial.__chat import check_and_update_new_message, update_screen, send_message_to_server, get_all_messages
+
+stop_event = threading.Event()
 
 def process_input(message):
     if message[:2] == "-c":
@@ -13,13 +17,30 @@ def process_input(message):
         exit(0)
     else:
         send_message_to_server(message)
-        update_screen()
+
+def is_key_pressed(key):
+    return keyboard.is_pressed(key)
 
 def input_loop():
     try:
+        update_screen()
+        
         while True:
-            message = input(f"\n>> ")
-            process_input(message)
+            if check_and_update_new_message():
+                print(colored("you have a new message ...", "blue"))
+                print('\033c', end='')
+                for msg in get_all_messages():
+                    print(msg)
+                
+            if is_key_pressed("ctrl"):
+                message = input(f"\n>> ")
+                process_input(message)
+                update_screen()
+    
+    except KeyboardInterrupt:
+        print("\n\nExiting...")
+        exit(0)
+        
     except EOFError:
         pass
 
@@ -35,11 +56,7 @@ def main():
             welcome_message()
             __chat_main()
             loading_animation2()
-
-            for message in get_all_messages():
-                print(message)
-
-            update_screen() 
+            
             input_loop()
 
         if args.docs:

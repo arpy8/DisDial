@@ -5,7 +5,7 @@ with open("README.md", "r") as f:
 
 setup(
     name="disdial",
-    version="1.2.4",
+    version="1.3.0",
     author="Arpit Sengar (arpy8)",
     description="A terminal-based IRC-inspired package that enables users to chat on a single server with everyone..",
     long_description=long_description,
@@ -23,5 +23,5 @@ setup(
     ],
     include_package_data=True,
     packages=find_packages(),
-    package_data={'disdial': ['data/*.txt', 'data/*.json']},
+    package_data={'disdial': ['*.txt', '*.json']},
 )

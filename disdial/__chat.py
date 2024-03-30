@@ -41,13 +41,18 @@ def get_all_messages():
         data = []
     return [x for x in data if x != ""]
 
-def check_new_message():
+def check_and_update_new_message():
     try:
         last_message = get_last_message()
     except IndexError:
         last_message = ""
-    return (True, last_message) if last_message != read_logs() else (False, last_message)
-
+        
+    if last_message != read_logs():
+        update_logs(last_message)
+        return True
+    else:
+        return False
+    
 def send_message_to_server(message):
     current_time = get_time()
     username = __username_main()
@@ -63,8 +68,9 @@ def send_message_to_server(message):
         response.raise_for_status()
         update_logs(f"[{current_time}] {username}: {data['message']}")
         return f"[{current_time}] {username}: {data['message']}"
+    
     except requests.exceptions.RequestException as e:
-        return f"Request failed: {e}"
+        return f"Request failed: {e}"   
 
 def update_screen():
     print('\033c', end='')
@@ -73,7 +79,7 @@ def update_screen():
 
 def auto_update_screen(stop_event, interval_seconds=5):
     while not stop_event.is_set():
-        new_message, _ = check_new_message()
+        new_message, _ = check_and_update_new_message()
 
         if new_message:
             print("New message detected. Updating screen...")
@@ -84,7 +90,7 @@ def auto_update_screen(stop_event, interval_seconds=5):
     print("Auto-update thread is exiting.")
 
 def main():
-    if check_new_message()[0]:
+    if check_and_update_new_message():
         try:
             update_logs(get_all_messages()[-1])
         except IndexError:
