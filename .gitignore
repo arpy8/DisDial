@@ -2,9 +2,10 @@
 disdial/__pycache__
 api/__pycache__
 
-/tests
-/build
-/dist
-/disdial.egg-info
+tests/
+build/
+dist/
+disdial.egg-info/
 
 pypi.txt
+.env
