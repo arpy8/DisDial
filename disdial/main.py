@@ -22,20 +22,20 @@ def is_key_pressed(key):
     return keyboard.is_pressed(key)
 
 def input_loop():
+    temp_list = get_all_messages()
     try:
         update_screen()
         
         while True:
-            if check_and_update_new_message():
-                print(colored("you have a new message ...", "blue"))
+            new_message, local_message = check_and_update_new_message()
+            if new_message:
                 print('\033c', end='')
-                for msg in get_all_messages():
+                temp_list.append(local_message)
+                
+                for msg in temp_list:
                     print(msg)
                 
-            if is_key_pressed("ctrl"):
-                message = input(f"\n>> ")
-                process_input(message)
-                update_screen()
+            time.sleep(0.2)
     
     except KeyboardInterrupt:
         print("\n\nExiting...")

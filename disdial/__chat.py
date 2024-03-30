@@ -3,7 +3,6 @@ import json
 import time
 import requests
 import datetime
-import logging
 
 from disdial.__user_name import main as __username_main
 from disdial.__constants import API_URL, API_URL2, LOGS_FILE_PATH, JSON_FILE_PATH
@@ -13,8 +12,6 @@ _chat_headers = {
     'Authorization': _chat_token,
     'Content-Type': 'application/json',
 }
-
-logging.basicConfig(filename=LOGS_FILE_PATH, level=logging.INFO)
 
 def get_time():
     current_time = datetime.datetime.now(pytz.timezone('Asia/Kolkata'))
@@ -27,31 +24,31 @@ def read_logs():
 def update_logs(message):
     with open(LOGS_FILE_PATH, "w") as f:
         f.write(message)
-
-def get_last_message():
-    return get_all_messages()[-1]
+        
+    return message
 
 def get_all_messages():
     try:
         response = requests.get(API_URL2, headers=_chat_headers)
         response.raise_for_status()
         data = response.json()[::-1]
+        
+        return [x for x in data if x != ""]
+
     except requests.exceptions.RequestException as e:
-        print(f"Error fetching messages: {e}")
-        data = []
-    return [x for x in data if x != ""]
+        return [f"Error fetching messages: {e}"]
 
 def check_and_update_new_message():
+    local_message = read_logs()
     try:
-        last_message = get_last_message()
+        last_message = get_all_messages()[-1]
     except IndexError:
         last_message = ""
         
-    if last_message != read_logs():
+    if last_message != local_message:
         update_logs(last_message)
-        return True
-    else:
-        return False
+    
+    return last_message != local_message, local_message
     
 def send_message_to_server(message):
     current_time = get_time()
@@ -66,7 +63,7 @@ def send_message_to_server(message):
     try:
         response = requests.post(API_URL, json=data, headers=_chat_headers)
         response.raise_for_status()
-        update_logs(f"[{current_time}] {username}: {data['message']}")
+        # update_logs(f"[{current_time}] {username}: {data['message']}")
         return f"[{current_time}] {username}: {data['message']}"
     
     except requests.exceptions.RequestException as e:
@@ -77,17 +74,17 @@ def update_screen():
     for msg in get_all_messages():
         print(msg)
 
-def auto_update_screen(stop_event, interval_seconds=5):
-    while not stop_event.is_set():
-        new_message, _ = check_and_update_new_message()
+# def auto_update_screen(stop_event, interval_seconds=5):
+#     while not stop_event.is_set():
+#         new_message, _ = check_and_update_new_message()
 
-        if new_message:
-            print("New message detected. Updating screen...")
-            update_screen()
+#         if new_message:
+#             print("New message detected. Updating screen...")
+#             update_screen()
 
-        time.sleep(interval_seconds)
+#         time.sleep(interval_seconds)
 
-    print("Auto-update thread is exiting.")
+    # print("Auto-update thread is exiting.")
 
 def main():
     if check_and_update_new_message():
