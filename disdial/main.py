@@ -27,9 +27,9 @@ def is_key_pressed(key):
 def input_loop():
     temp_list = get_all_messages()
     history = []
-    temp_set = set()
     
     try:
+        modify_env(True)
         update_screen()
         
         while True:
@@ -54,6 +54,7 @@ def input_loop():
     
     except KeyboardInterrupt:
         print("\n\nExiting...")
+        modify_env(False)
         exit(0)
         
     except EOFError:

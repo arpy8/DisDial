@@ -63,7 +63,6 @@ def send_message_to_server(message):
     try:
         response = requests.post(API_URL, json=data, headers=_chat_headers)
         response.raise_for_status()
-        # update_logs(f"[{current_time}] {username}: {data['message']}")
         return f"[{current_time}] {username}: {data['message']}"
     
     except requests.exceptions.RequestException as e:

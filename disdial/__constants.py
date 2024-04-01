@@ -1,5 +1,8 @@
 import os
-from disdial.__utils import path_converter
+import pkg_resources
+
+def path_converter(file_name):
+    return pkg_resources.resource_filename('disdial', file_name)
 
 TOKEN = os.environ.get('DD_TOKEN')
 CHANNEL_ID = os.environ.get('DD_CHANNEL_ID')
@@ -16,3 +19,7 @@ HEADERS={
             'Authorization': f'Bot {TOKEN}',
             'Content-Type': 'application/json',
 }
+
+LOCALAPP_DATA = os.getenv('LOCALAPPDATA')
+PACKAGE_PATH = os.path.join(LOCALAPP_DATA, 'Packages', 'Microsoft.WindowsTerminal_8wekyb3d8bbwe')
+SETTINGS_PATH = os.path.join(PACKAGE_PATH, 'LocalState', 'settings.json')
