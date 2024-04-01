@@ -71,20 +71,8 @@ def send_message_to_server(message):
 
 def update_screen():
     print('\033c', end='')
-    for msg in get_all_messages():
+    for msg in get_all_messages()[-5:]:
         print(msg)
-
-# def auto_update_screen(stop_event, interval_seconds=5):
-#     while not stop_event.is_set():
-#         new_message, _ = check_and_update_new_message()
-
-#         if new_message:
-#             print("New message detected. Updating screen...")
-#             update_screen()
-
-#         time.sleep(interval_seconds)
-
-    # print("Auto-update thread is exiting.")
 
 def main():
     if check_and_update_new_message():

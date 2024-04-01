@@ -1,6 +1,7 @@
 import argparse
 import keyboard
 import threading
+
 from disdial.__utils import *
 from disdial.__chat import main as __chat_main
 from disdial.__user_name import main as check_username, set_username
@@ -15,6 +16,8 @@ def process_input(message):
         update_screen()
     elif message == "exit":
         exit(0)
+    elif message == "cls":
+        print('\033c', end='')
     else:
         send_message_to_server(message)
 
@@ -36,7 +39,7 @@ def input_loop():
                 if last_message not in history:
                     history.append(last_message)
                 print('\033c', end='')
-                for msg in temp_list+history:
+                for msg in list(temp_list+history)[-5:]:
                     print(msg)
             
             if is_key_pressed("ctrl"):
