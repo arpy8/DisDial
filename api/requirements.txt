@@ -1,3 +1,4 @@
+urllib3==1.26.6
 Flask
 gunicorn
 uvicorn
